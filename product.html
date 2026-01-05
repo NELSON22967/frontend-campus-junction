@@ -1,80 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Junction | Products</title>
-<style>
-body { font-family: Arial; background:#f4f6f8; margin:0; padding:20px; }
-h1 { text-align:center; }
-.products { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; max-width:1000px; margin:auto; }
-.card { background:white; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08); display:flex; flex-direction:column; }
-.card img { width:100%; height:180px; object-fit:cover; border-radius:8px; }
-.card h3 { margin:10px 0 5px; }
-.card p { margin:0 0 5px; color:#555; }
-.card .price { font-weight:bold; color:#007bff; }
-.card button { margin-top:auto; padding:8px; border:none; border-radius:6px; cursor:pointer; font-weight:600; background:#28a745; color:white; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Product</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family: 'Roboto', sans-serif; }
+    body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg,#667eea,#764ba2); padding: 10px; }
+
+    form { 
+      background: #fff; padding: 20px 25px; border-radius: 12px; width: 100%; max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 { text-align: center; margin-bottom: 20px; color: #333; font-size: 1.5rem; }
+
+    input, textarea { 
+      width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; 
+      border: 1px solid #ccc; transition: border-color 0.3s; 
+    }
+    input:focus, textarea:focus { border-color: #667eea; outline: none; }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    button { 
+      width: 100%; padding: 12px; margin-top: 15px; border: none; 
+      border-radius: 8px; background: #667eea; color: #fff; font-weight: 500; 
+      cursor: pointer; transition: background 0.3s; display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    button:hover { background: #5a67d8; }
+
+    .spinner {
+      display: none;
+      width: 20px; height: 20px;
+      border: 3px solid #fff;
+      border-top: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 16px;
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      font-size: 16px;
+      opacity: 0;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .toast.show { visibility: visible; opacity: 1; }
+  </style>
 </head>
 <body>
+  <form id="productForm">
+    <h2>Upload Product</h2>
+    <input type="text" id="name" placeholder="Product Name" required />
+    <input type="number" id="price" placeholder="Price (e.g. 500)" required />
+    <textarea id="description" placeholder="Description"></textarea>
+    <button type="submit">
+      Upload
+      <div class="spinner"></div>
+    </button>
+  </form>
 
-<h1>🛍️ Available Products</h1>
-<div class="products" id="products"></div>
+  <div id="toast" class="toast"></div>
 
-<script>
-const productsDiv = document.getElementById('products');
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  <script>
+    const form = document.getElementById('productForm');
+    const button = form.querySelector('button');
+    const spinner = form.querySelector('.spinner');
+    const toast = document.getElementById('toast');
 
-async function loadProducts() {
-  try {
-    const res = await fetch('http://localhost:5000/api/products');
-    const products = await res.json();
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
 
-    productsDiv.innerHTML = '';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    products.forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'card';
-      div.innerHTML = `
-        <img src="${p.image}" />
-        <h3>${p.name}</h3>
-        <p>Type: ${p.type} • ${p.status}</p>
-        <p class="price">Ksh ${p.price.toLocaleString()}</p>
-        <p>Seller: ${p.seller?.name || 'Unknown'}</p>
-        <button>Add to Cart</button>
-        <button onclick="contactSeller('${p.seller?.phone}','${p.name}','${p.price}')">Contact Seller</button>
-      `;
+      spinner.style.display = 'inline-block';
+      button.disabled = true;
 
-      div.querySelector('button:first-of-type').onclick = () => {
-        cart.push({
-          id: p._id,
-          name: p.name,
-          type: p.type,
-          status: p.status,
-          price: p.price,
-          image: p.image,
-          seller: p.seller
-        });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert('✅ Added to cart');
+      const token = localStorage.getItem('token');
+      if (!token) {
+        showToast('⚠️ You must login first');
+        spinner.style.display = 'none';
+        button.disabled = false;
+        return;
+      }
+
+      const data = {
+        name: document.getElementById('name').value,
+        price: Number(document.getElementById('price').value),
+        description: document.getElementById('description').value
       };
 
-      productsDiv.appendChild(div);
+      try {
+        const res = await fetch('https://campus-junction-2.onrender.com/api/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        spinner.style.display = 'none';
+        button.disabled = false;
+
+        if (res.ok) {
+          showToast('✅ Product uploaded successfully!');
+          form.reset();
+        } else {
+          showToast(result.message || 'Failed to upload product');
+        }
+      } catch (err) {
+        console.error(err);
+        spinner.style.display = 'none';
+        button.disabled = false;
+        showToast('⚠️ Server error');
+      }
     });
-  } catch (err) {
-    console.error(err);
-    productsDiv.innerHTML = '<p style="text-align:center;color:red;">Failed to load products</p>';
-  }
-}
-
-function contactSeller(phone, name, price){
-  if(!phone) { alert('Seller contact not available'); return; }
-  const msg = `Hello, I'm interested in buying: ${name} (Ksh ${price})`;
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-}
-
-loadProducts();
-</script>
-
+  </script>
 </body>
 </html>
