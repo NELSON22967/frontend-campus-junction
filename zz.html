@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<style>
+    body{
+        background: rgb(234, 78, 78);
+        display: flex;
+        justify-content: center;
+        
+    }
+    .card{
+        width: 400px;
+        background: burlywood;
+        padding: 10px;
+        text-align: center;
+    }
+    textarea{
+        width: 100%;
+        border: none;
+        padding: 5px;
+    }
+    textarea:focus{
+      outline: none;
+    }
+    .alert{
+        color: red;
+        margin: 0px;
+    }
+</style>
+<body>
+   <div class="card">
+      <h2>Javascript character counter</h2>
+      <textarea rows="7"  placeholder="Enter bio data" maxlength="20" minlength="3"></textarea>
+      <p>Total characters: <span class="count">0</span></p>
+      <p> <span class="alert"></span></p>
+      <p id="param"></p>
+   </div> 
+   <script src="z.js"></script>
+</body>
+</html>

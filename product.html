@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Junction | Products</title>
+<style>
+body { font-family: Arial; background:#f4f6f8; margin:0; padding:20px; }
+h1 { text-align:center; }
+.products { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; max-width:1000px; margin:auto; }
+.card { background:white; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08); display:flex; flex-direction:column; }
+.card img { width:100%; height:180px; object-fit:cover; border-radius:8px; }
+.card h3 { margin:10px 0 5px; }
+.card p { margin:0 0 5px; color:#555; }
+.card .price { font-weight:bold; color:#007bff; }
+.card button { margin-top:auto; padding:8px; border:none; border-radius:6px; cursor:pointer; font-weight:600; background:#28a745; color:white; }
+</style>
+</head>
+<body>
+
+<h1>🛍️ Available Products</h1>
+<div class="products" id="products"></div>
+
+<script>
+const productsDiv = document.getElementById('products');
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+async function loadProducts() {
+  try {
+    const res = await fetch('http://localhost:5000/api/products');
+    const products = await res.json();
+
+    productsDiv.innerHTML = '';
+
+    products.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = `
+        <img src="${p.image}" />
+        <h3>${p.name}</h3>
+        <p>Type: ${p.type} • ${p.status}</p>
+        <p class="price">Ksh ${p.price.toLocaleString()}</p>
+        <p>Seller: ${p.seller?.name || 'Unknown'}</p>
+        <button>Add to Cart</button>
+        <button onclick="contactSeller('${p.seller?.phone}','${p.name}','${p.price}')">Contact Seller</button>
+      `;
+
+      div.querySelector('button:first-of-type').onclick = () => {
+        cart.push({
+          id: p._id,
+          name: p.name,
+          type: p.type,
+          status: p.status,
+          price: p.price,
+          image: p.image,
+          seller: p.seller
+        });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('✅ Added to cart');
+      };
+
+      productsDiv.appendChild(div);
+    });
+  } catch (err) {
+    console.error(err);
+    productsDiv.innerHTML = '<p style="text-align:center;color:red;">Failed to load products</p>';
+  }
+}
+
+function contactSeller(phone, name, price){
+  if(!phone) { alert('Seller contact not available'); return; }
+  const msg = `Hello, I'm interested in buying: ${name} (Ksh ${price})`;
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+loadProducts();
+</script>
+
+</body>
+</html>

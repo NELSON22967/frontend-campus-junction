@@ -1,0 +1,132 @@
+ table{
+        outline: none;
+        border-collapse: separate;
+       border-spacing: 4px;
+       width: 100%;
+       text-align: center;
+       font-size: 23px;
+    }
+    td{
+        box-shadow: 0 0 10px lime;
+    }
+
+    #para{
+        background-color: rgb(245, 87, 8);
+       
+        width: 100px;
+        height: 30px;
+        text-align: center;
+        margin: 4px;
+        font-size: 23px;
+        font-weight: bolder;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        color: white;
+
+    }
+    #division{
+        border: 2px solid navy;
+          width:298px;
+        gap: 6px;
+        margin: 6px;
+         
+    }
+    #division:hover{
+        border: 2px solid red;
+        transform: translateY(-6px)scale(1.01);
+    }
+    #img{
+        width: 300px;
+    }
+    .display{
+        display: grid;
+     grid-template-columns: repeat(4,1fr);
+     grid-template-rows: auto;
+       
+    }
+
+    #btn{
+        position: absolute;
+        margin: 4px;
+        margin-left: 196px;
+        margin-top: -37px;
+       width: 100px;
+        height: 35px;
+        text-align: center;
+         background: lime;
+        font-size: 23px;
+        font-weight: bolder;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      
+    }
+    #btn:hover{
+        background-color: lawngreen;
+
+    }
+    #search{
+        margin: 6px;
+        width: 80%;
+        padding:7px;
+        border-radius: 24px;
+        font-size: 23px;
+    }
+    .menu{
+        cursor: pointer;
+    }
+    .hidden{
+        display:none;
+       
+    }
+    .card{
+         width: 70%;
+        height:auto;
+        border:none;
+        box-shadow: 0 0 10px black;
+        position: absolute;
+        z-index: 100;
+        background-color: yellow;
+        transition: 0.3s;
+        border-radius: 10px;
+        padding: 5px;
+        top: 100px;
+     
+    }
+    .close{
+        border: none;
+        background: none;
+        font-size: 23px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        color: red;
+        font-weight: bolder;
+
+    }
+    .slat{
+        width:6em;
+        background-color: aquamarine;
+        height: 1em;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 23px;
+    }
+
+    .butn{
+        border: none;
+        background-color: lime;
+        width:auto;
+        height:auto;
+         text-align: center;
+        font-weight: bolder;
+        gap: 3px;
+        border-radius: 10px;
+        font-size:1.5em;
+       
+       
+    }
+    .butn:hover{
+        transform:translate3d(2px,-2px,2px);
+        background: lightgreen;
+    }
+   .btns{
+    display: flex;
+    gap: 9px;
+    justify-content: flex-end;
+   }

@@ -1,0 +1,41 @@
+  body{
+        display: flex;
+        justify-content: center;
+        
+    }
+    h1{
+        color: blue;
+        text-align: center;
+        font-size:42px;
+    }
+    .register,.login{
+       border: none;
+       box-shadow: 0 0 10px black;
+       border-radius: 9px;
+       width: 24rem;
+       height: auto;
+       padding: 6px;
+       text-align: center;
+
+    }
+    hr{
+       background: blue;
+       height: 2px;
+    }
+    .input{
+     width: 60%;
+     height:1.5rem;
+     font-size: 17px;
+     color: black;
+    }
+    button{
+        background: lime;
+        border: none;
+        width: 67%;
+        height: 33px;
+        border-radius: 9px;
+        margin: 2px;
+    }
+    .login{
+        margin-top: 100px;
+    }

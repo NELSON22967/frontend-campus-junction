@@ -1,0 +1,226 @@
+body{
+   
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+}
+.section2{
+    margin-top:none;
+    margin-bottom: 30px;
+    text-align: center;
+    background-color: red;
+    padding: 70px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    font-size: 24px;
+   
+   
+}
+.span{
+    background: linear-gradient(90deg,rgb(210, 207, 207),rgb(83, 83, 83),rgb(37, 37, 37));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.form{
+   
+    
+    flex-direction: column;
+    padding: 9px;
+    gap: 5px;
+    border-radius: 19px;
+    width: auto;
+    height: auto;
+}
+.search1{
+    background-color:lightgoldenrodyellow;
+    height: 56px;
+    font-size: 24px;
+    padding: 19px;
+    border-radius: 32px;
+    border: 2px solid white;
+    width: 85%;
+   
+    
+}
+.button1{
+   font-size: 24px;
+    width: 90px;
+    height: 56px;
+    border-radius:32px;
+    background:lime;
+    color: red;
+    border: none;
+ 
+   
+}
+.button1:hover{
+   background:limegreen;
+}
+.counters{
+    display: flex;
+    gap: 9px;
+    margin: 12px;
+    justify-content: center;
+    align-items: center;
+}
+.counter{
+    border: 2px solid white;
+    border-radius:30px;
+    width: 350px;
+    height:30px;
+    
+    
+}
+
+.imagedisplay{
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    width: 100%;
+    height: 60%;
+}
+.span1{
+    color: red;
+    font-size:24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.button2{
+    color:white;
+    background: orangered;
+    font-size: 18px;
+    border: none;
+    border-radius: 9px;
+  
+
+}
+ .section1{
+            background:hwb(240 59% 29% / 0.361);
+            display: flex;
+            height: 77px;
+            margin-bottom: 2px;
+            color: white;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 32px;
+            padding: 6px;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+
+    }
+   .profile{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    border: 2px double  blue;
+    font-size: small;
+   }
+   .img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+   }
+   .footer{
+    background-color:rgba(236, 62, 59, 0.717);
+    text-align: center;
+    padding: 6px;
+    font-size: 22px;
+   
+   }
+   mark{
+    background: lime;
+   }
+.klala{
+    position:fixed;
+    background: white;
+    box-shadow: 0 0 6px black;
+    border: none;
+    font-size: 24px;
+    border-radius: 9px;
+    width:auto;
+    height: auto;
+    text-align: center;
+    color: red;
+    padding: 3px;
+    margin-left: 90%;
+    margin-top: 35%;
+    cursor: pointer;
+ }  
+
+.disps{
+    position:fixed;
+    background: white;
+    box-shadow: 0 0 6px black;
+    border: none;
+    font-size: 24px;
+    border-radius: 9px;
+    height:auto;
+    width: auto;
+    text-align: center;
+    color: red;
+    padding: 3px;
+    margin-left: 75%;
+    margin-top: 20%;
+    cursor: pointer; 
+    gap: 5px;
+}
+.esc{
+    border: none;
+    background: none;
+    color: red;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-size: 19px;
+    display: block;
+    
+}
+.mess2{
+   
+    font-size: medium;
+    color:red;
+}
+   .mess{
+   display: block;
+    color: blue;
+    font-size: medium;
+   }
+   .menu-toggle{
+    width: 35px;
+    cursor: pointer;
+   }
+.line{
+    height: 4px;
+    background: black;
+    margin: 6px 0;
+    border-radius: 4px;
+    transition: 0.4s;
+
+}
+.hidden{
+    display: none;
+}
+.panel{
+    position: absolute;
+    top: 80px;
+    right: 10px;
+    width: 180px;
+    background:#ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+    transition: 0.3s;
+    color: #000;
+    font-size: 16px;
+
+}
+.panel ul{
+    padding: 0px;
+    margin: 10px 0 0 0;
+    list-style: none;
+
+}
+.panel ul li{
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    cursor: pointer;
+}

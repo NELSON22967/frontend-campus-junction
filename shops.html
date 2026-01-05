@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop center</title>
+</head>
+<style>
+   
+
+    #para{
+        background-color: rgb(245, 87, 8);
+       
+        width: 100px;
+        height: 30px;
+        text-align: center;
+        margin: 4px;
+        font-size: 23px;
+        font-weight: bolder;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        color: white;
+
+    }
+    #division{
+        border: 2px solid navy;
+          width:298px;
+        gap: 6px;
+        margin: 6px;
+         
+    }
+    #division:hover{
+        border: 2px solid red;
+        transform: translateY(-6px)scale(1.01);
+    }
+    #img{
+        width: 300px;
+    }
+    .display{
+        display: grid;
+     grid-template-columns: repeat(4,1fr);
+     grid-template-rows: auto;
+       
+    }
+
+    #btn{
+        position: absolute;
+        margin: 4px;
+        margin-left: 196px;
+        margin-top: -37px;
+       width: 100px;
+        height: 35px;
+        text-align: center;
+         background: lime;
+        font-size: 23px;
+        font-weight: bolder;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      
+    }
+    #btn:hover{
+        background-color: lawngreen;
+
+    }
+    #search{
+        margin: 6px;
+        width: 80%;
+        padding:7px;
+        border-radius: 24px;
+        font-size: 23px;
+    }
+    .menu{
+        cursor: pointer;
+    }
+    .hidden{
+        display:none;
+       
+    }
+    .card{
+         width: 70%;
+        height:auto;
+        border:none;
+        box-shadow: 0 0 10px black;
+        position: absolute;
+        z-index: 100;
+        background-color: yellow;
+        transition: 0.3s;
+        border-radius: 10px;
+        padding: 5px;
+        top: 100px;
+     
+    }
+    .close{
+        border: none;
+        background: none;
+        font-size: 23px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        color: red;
+        font-weight: bolder;
+
+    }
+    .slat{
+        width:6em;
+        background-color: aquamarine;
+        height: 1em;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 23px;
+    }
+
+    .butn{
+        border: none;
+        background-color: lime;
+        width:auto;
+        height:auto;
+         text-align: center;
+        font-weight: bolder;
+        gap: 3px;
+        border-radius: 10px;
+        font-size:1.5em;
+       
+       
+    }
+    .butn:hover{
+        transform:translate3d(2px,-2px,2px);
+        background: lightgreen;
+    }
+   .btns{
+    display: flex;
+    gap: 9px;
+    justify-content: flex-end;
+   }
+</style>
+<body>
+    
+
+    <nav id="menut" class="hidden ">
+        <div class="card">
+            <button class="close" >X</button><hr>
+            <figcaption>
+                <img src="house2.jpeg" alt="">
+            </figcaption>
+            <div class="disp">
+                <p class="about">We offer a connection in between sellers and buyers</p>
+                <p class="description">This are products found in campus junction 
+                    all sale are tracked by our company and ensure securicall end to end communication and orders
+                </p>
+                <p id="para1" class="slat">KSH:<span id="price"></span></p>
+
+                <div class="btns">
+                <button class="butn btn1">Add to cart</button>
+                <button class="butn btn2">CONNECT</button>
+                </div>
+            </div>
+        </div>
+       
+    </nav>
+
+    <p class="mess"></p>
+    <div class="display"></div>
+
+    <script src="shops.js"></script>
+</body>
+</html>

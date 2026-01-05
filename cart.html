@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Cart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial; background:#f4f6f8; margin:0; padding:20px; }
+h1 { text-align:center; }
+.cart { max-width:900px; margin:auto; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08); }
+.item { display:flex; gap:15px; border-bottom:1px solid #eee; padding:15px 0; }
+.item img { width:120px; height:120px; object-fit:cover; border-radius:8px; }
+.details { flex:1; }
+.details h3 { margin:0 0 5px; }
+.price { font-weight:bold; color:#007bff; margin-top:5px; }
+.actions { display:flex; flex-direction:column; gap:10px; }
+button { padding:8px 12px; border:none; border-radius:6px; cursor:pointer; font-weight:600; }
+.remove { background:#dc3545;color:white; }
+.contact { background:#28a745;color:white; }
+.summary { text-align:right; margin-top:20px; font-size:18px; }
+.empty { text-align:center; color:gray; padding:40px; }
+</style>
+</head>
+<body>
+
+<h1>🛒 My Cart</h1>
+<div class="cart" id="cart"></div>
+
+<script>
+const cartDiv = document.getElementById('cart');
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function renderCart(){
+  cartDiv.innerHTML = '';
+  if(cart.length === 0){
+    cartDiv.innerHTML = '<div class="empty">Your cart is empty</div>';
+    return;
+  }
+
+  let total = 0;
+  cart.forEach((item,index)=>{
+    total += item.price;
+
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <img src="${item.image}" />
+      <div class="details">
+        <h3>${item.name}</h3>
+        <div>${item.type} • ${item.status}</div>
+        <div class="price">Ksh ${item.price.toLocaleString()}</div>
+        <div>Seller: ${item.seller?.name || 'Unknown'}</div>
+      </div>
+      <div class="actions">
+        <button class="contact">Contact Seller</button>
+        <button class="remove">Remove</button>
+      </div>
+    `;
+
+    div.querySelector('.remove').onclick = () => removeItem(index);
+    div.querySelector('.contact').onclick = () => contactSeller(item);
+
+    cartDiv.appendChild(div);
+  });
+
+  const summary = document.createElement('div');
+  summary.className = 'summary';
+  summary.innerHTML = `<strong>Total:</strong> Ksh ${total.toLocaleString()}`;
+  cartDiv.appendChild(summary);
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  localStorage.setItem('cart',JSON.stringify(cart));
+  renderCart();
+}
+
+function contactSeller(item){
+  if(!item.seller?.phone){ alert('Seller contact not available'); return; }
+  const msg = `Hello, I'm interested in buying: ${item.name} (Ksh ${item.price})`;
+  window.open(`https://wa.me/${item.seller.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+renderCart();
+</script>
+
+</body>
+</html>

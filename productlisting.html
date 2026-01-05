@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Campus Junction | Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 15px;
+      flex: 1;
+    }
+
+    .card-body h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+    }
+
+    .status {
+      font-size: 13px;
+      color: gray;
+    }
+
+    .price {
+      color: #007bff;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+
+    .seller {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      padding: 15px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .cart-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    .contact-btn {
+      background: #007bff;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 600px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🛒 Available Products</h1>
+
+<div class="products" id="productList"></div>
+
+<script>
+  const productList = document.getElementById('productList');
+  const API_URL = 'http://localhost:5000/api/products';
+
+  // CART (stored locally)
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  async function loadProducts() {
+    try {
+      const res = await fetch(API_URL);
+      const products = await res.json();
+
+      productList.innerHTML = '';
+
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        // Handle seller info safely
+        const sellerName = product.seller?.name || 'Unknown Seller';
+        const sellerPhone = product.seller?.phone || '254700000000';
+
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <div class="card-body">
+            <h3>${product.name}</h3>
+            <div class="status">${product.status.toUpperCase()} • ${product.type}</div>
+            <p>${product.description}</p>
+            <div class="price">Ksh ${product.price.toLocaleString()}</div>
+            <div class="seller">Seller: ${sellerName}</div>
+          </div>
+          <div class="actions">
+            <button class="cart-btn">Add to Cart</button>
+            <button class="contact-btn">Contact Seller</button>
+          </div>
+        `;
+
+        // ADD TO CART
+        card.querySelector('.cart-btn').onclick = () => addToCart(product);
+
+        // CONTACT SELLER
+        card.querySelector('.contact-btn').onclick = () => contactSeller(sellerPhone, product);
+
+        productList.appendChild(card);
+      });
+
+    } catch (error) {
+      console.error(error);
+      productList.innerHTML = '<p>Failed to load products</p>';
+    }
+  }
+
+  function addToCart(product) {
+    const exists = cart.find(p => p._id === product._id);
+    if (!exists) {
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('✅ Added to cart');
+    } else {
+      alert('⚠️ Product already in cart');
+    }
+  }
+
+  function contactSeller(phone, product) {
+    const message = `Hello, I'm interested in your product: ${product.name} (Ksh ${product.price})`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+  }
+
+  loadProducts();
+</script>
+
+</body>
+</html>
