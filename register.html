@@ -34,7 +34,6 @@
 
     button:hover { background: #5a67d8; }
 
-    /* Spinner inside button */
     .spinner {
       display: none;
       width: 20px; height: 20px;
@@ -50,6 +49,29 @@
     p { text-align: center; margin-top: 15px; color: #555; }
     a { color: #667eea; text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    /* Toast notification */
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 16px;
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      font-size: 16px;
+      opacity: 0;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -69,10 +91,19 @@
     <p>Already have an account? <a href="login.html">Login</a></p>
   </form>
 
+  <div id="toast" class="toast"></div>
+
   <script>
     const form = document.getElementById('registerForm');
     const button = form.querySelector('button');
     const spinner = form.querySelector('.spinner');
+    const toast = document.getElementById('toast');
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -88,7 +119,6 @@
       };
 
       try {
-        // ✅ Updated to use deployed backend
         const res = await fetch('https://campus-junction-2.onrender.com/api/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -101,17 +131,20 @@
         button.disabled = false;
 
         if (res.ok) {
-          alert('Registration successful!');
-          localStorage.setItem('token', result.token); // store JWT if backend sends one
-          window.location.href = 'login.html';
+          showToast('✅ Registration successful! Redirecting...');
+          localStorage.setItem('token', result.token); // store JWT
+          // Redirect after 2 seconds
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 2000);
         } else {
-          alert(result.message || 'Registration failed');
+          showToast(result.message || 'Registration failed');
         }
       } catch (err) {
         spinner.style.display = 'none';
         button.disabled = false;
         console.error(err);
-        alert('An error occurred');
+        showToast('⚠️ An error occurred');
       }
     });
   </script>
