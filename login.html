@@ -105,7 +105,8 @@
       };
 
       try {
-        const res = await fetch('http://localhost:5000/api/login', {
+        // ✅ Updated to use deployed backend
+        const res = await fetch('https://campus-junction-2.onrender.com/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -118,7 +119,7 @@
 
         if (res.ok) {
           showToast('Login successful!');
-          localStorage.setItem('token', result.token);
+          localStorage.setItem('token', result.token); // store JWT
           setTimeout(() => { window.location.href = 'campus.html'; }, 1000);
         } else {
           showToast(result.message || 'Login failed');

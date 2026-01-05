@@ -188,7 +188,7 @@ btn.addEventListener("click", async () => {
         // Assuming user is logged in and has a JWT stored in localStorage
         const token = localStorage.getItem("token");
 
-        const res = await fetch("http://localhost:5000/api/shops", {
+        const res = await fetch("https://campus-junction-2.onrender.com", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -264,7 +264,8 @@ async function loadProducts() {
   loader.style.display = 'block';
   productList.innerHTML = '';
   try {
-    const res = await fetch('http://localhost:5000/api/products');
+    // ✅ Deployed backend URL
+    const res = await fetch('https://campus-junction-2.onrender.com/api/products');
     const products = await res.json();
 
     if (!products.length) {
@@ -276,7 +277,6 @@ async function loadProducts() {
       const card = document.createElement('div');
       card.className = 'product-card';
 
-      // Build badges HTML if available
       let badgesHTML = '';
       if (product.badges && product.badges.length) {
         badgesHTML = `<div class="badges" style="display:flex; gap:5px; margin:5px 10px;">` +
@@ -291,7 +291,7 @@ async function loadProducts() {
           ${(product.status || 'available').toUpperCase()} • ${product.type || 'product'}
         </div>
         <p>${product.description || ''}</p>
-        ${badgesHTML} <!-- badges shown here -->
+        ${badgesHTML}
         <div class="price">Ksh ${product.price?.toLocaleString() || '0'}</div>
         <div class="shop-name" style="margin:0 10px 10px; font-size:14px; color:#555;">
           Shop: ${product.shop?.name || 'Individual Seller'}

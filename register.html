@@ -77,7 +77,6 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Show spinner and disable button
       spinner.style.display = 'inline-block';
       button.disabled = true;
 
@@ -89,7 +88,8 @@
       };
 
       try {
-        const res = await fetch('http://localhost:5000/api/register', {
+        // ✅ Updated to use deployed backend
+        const res = await fetch('https://campus-junction-2.onrender.com/api/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -102,7 +102,7 @@
 
         if (res.ok) {
           alert('Registration successful!');
-          localStorage.setItem('token', result.token);
+          localStorage.setItem('token', result.token); // store JWT if backend sends one
           window.location.href = 'login.html';
         } else {
           alert(result.message || 'Registration failed');
